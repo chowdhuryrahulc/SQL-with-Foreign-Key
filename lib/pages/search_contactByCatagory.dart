@@ -1,26 +1,27 @@
-// ignore_for_file: prefer_const_constructors, file_names, prefer_const_constructors_in_immutables
+// ignore_for_file: file_names, prefer_const_constructors, prefer_const_constructors_in_immutables
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sqlwithforiegnkey/Widgits/catagories_Dropdown.dart';
+import 'package:sqlwithforiegnkey/Widgits/contacts_list.dart';
 import 'package:sqlwithforiegnkey/database/catagory_operations.dart';
 import 'package:sqlwithforiegnkey/database/contact_operations.dart';
 import 'package:sqlwithforiegnkey/modals/catagory.dart';
 import 'package:sqlwithforiegnkey/modals/contact.dart';
 
-class AddContactPage extends StatefulWidget {
-  AddContactPage({Key? key}) : super(key: key);
+class SearchContactsByCategory extends StatefulWidget {
+  SearchContactsByCategory({Key? key}) : super(key: key);
 
   @override
-  _AddContactPageState createState() => _AddContactPageState();
+  _SearchContactsByCategoryState createState() =>
+      _SearchContactsByCategoryState();
 }
 
-class _AddContactPageState extends State<AddContactPage> {
-  final _nameController = TextEditingController();
-  final _surnameController = TextEditingController();
+class _SearchContactsByCategoryState extends State<SearchContactsByCategory> {
   ContactOperations contactOperations = ContactOperations();
   CategoryOperations categoryOperations = CategoryOperations();
   Category? _selectedCategory;
+  List<Contact>? data;
 
   callback(selectedCategory) {
     setState(() {
@@ -47,22 +48,6 @@ class _AddContactPageState extends State<AddContactPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                controller: _nameController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Name'),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                controller: _surnameController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Surname'),
-              ),
-            ),
             FutureBuilder<List<Category>>(
               future: categoryOperations.getAllCategories(),
               builder: (context, snapshot) {
@@ -70,20 +55,22 @@ class _AddContactPageState extends State<AddContactPage> {
                     ? CategoriesDropDown(snapshot.data!, callback)
                     : Text('No categories');
               },
-            )
+            ),
+            FutureBuilder(
+              future: contactOperations
+                  .getAllContactsByCategory(_selectedCategory!),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.hasError) print('error');
+                data = snapshot.data;
+                return snapshot.hasData
+                    ? ContactsList(data!)
+                    : Center(
+                        child: Text('You have no contacts'),
+                      );
+              },
+            ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          final contact = Contact(
-              name: _nameController.text,
-              surname: _surnameController.text,
-              category: _selectedCategory!.id);
-          contactOperations.createContact(contact);
-          // setState(() {});
-        },
-        child: Icon(Icons.add),
       ),
     );
   }

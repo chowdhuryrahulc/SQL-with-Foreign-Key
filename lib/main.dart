@@ -1,20 +1,18 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
-import 'package:sqflite_tutorial/presentation/pages/add_category_page.dart';
-import 'package:sqflite_tutorial/presentation/pages/add__contact_page.dart';
-import 'package:sqflite_tutorial/presentation/pages/contacts_page.dart';
-import 'package:sqflite_tutorial/presentation/pages/edit_contact_page.dart';
-import 'package:sqflite_tutorial/presentation/pages/search_contacts.dart';
-import 'package:sqflite_tutorial/presentation/pages/search_contacts_by_category.dart';
+import 'package:sqlwithforiegnkey/pages/add_catagory_page.dart';
 import 'package:sqlwithforiegnkey/pages/add_contactPage.dart';
 import 'package:sqlwithforiegnkey/pages/contact_page.dart';
 import 'package:sqlwithforiegnkey/pages/edit_contactPage.dart';
+import 'package:sqlwithforiegnkey/pages/search_contactByCatagory.dart';
+import 'package:sqlwithforiegnkey/pages/search_contacts.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

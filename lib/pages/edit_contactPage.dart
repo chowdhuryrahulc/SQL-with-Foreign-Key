@@ -1,12 +1,14 @@
+// ignore_for_file: file_names, must_be_immutable, prefer_final_fields, prefer_const_constructors
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite_tutorial/data/contact_operations.dart';
-import 'package:sqflite_tutorial/models/contact.dart';
+import 'package:sqlwithforiegnkey/database/contact_operations.dart';
+import 'package:sqlwithforiegnkey/modals/contact.dart';
 
 class EditContactPage extends StatefulWidget {
-  Contact contact;
+  Contact? contact;
 
-  EditContactPage({Key key, this.contact})
+  EditContactPage({Key? key, this.contact})
       : super(
           key: key,
         );
@@ -23,8 +25,8 @@ class _EditContactPageState extends State<EditContactPage> {
 
   @override
   Widget build(BuildContext context) {
-    _nameController.text = widget.contact.name;
-    _surnameController.text = widget.contact.surname;
+    _nameController.text = widget.contact!.name!;
+    _surnameController.text = widget.contact!.surname!;
     return Scaffold(
       appBar: AppBar(
         title: Text('SQFLite Tutorial'),
@@ -65,10 +67,10 @@ class _EditContactPageState extends State<EditContactPage> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.edit),
         onPressed: () {
-          widget.contact.name = _nameController.text;
-          widget.contact.surname = _surnameController.text;
+          widget.contact!.name = _nameController.text;
+          widget.contact!.surname = _surnameController.text;
 
-          contactOperations.updateContact(widget.contact);
+          contactOperations.updateContact(widget.contact!);
         },
       ),
     );

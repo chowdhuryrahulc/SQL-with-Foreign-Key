@@ -16,17 +16,19 @@ class DatabaseRepository {
 
   Future<Database?> get database async {
     if (_database != null) {
+      print('Database Already Exists');
       return _database!;
     } else {
-      _database = await _initDatabase();
+      print('Database Created');
+      return _database = await _initDatabase();
     }
   }
 
   _initDatabase() async {
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, _databaseName);
+    // Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    String path = join(await getDatabasesPath(), _databaseName);
     return await openDatabase(path,
-        version: _databaseVersion, onCreate: await onCreate);
+        version: _databaseVersion, onCreate: onCreate);
   }
 
   Future onCreate(Database db, int version) async {
