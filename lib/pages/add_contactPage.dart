@@ -7,6 +7,7 @@ import 'package:sqlwithforiegnkey/database/catagory_operations.dart';
 import 'package:sqlwithforiegnkey/database/contact_operations.dart';
 import 'package:sqlwithforiegnkey/modals/catagory.dart';
 import 'package:sqlwithforiegnkey/modals/contact.dart';
+import 'package:sqlwithforiegnkey/pages/contact_page.dart';
 
 class AddContactPage extends StatefulWidget {
   AddContactPage({Key? key}) : super(key: key);
@@ -81,7 +82,8 @@ class _AddContactPageState extends State<AddContactPage> {
               surname: _surnameController.text,
               category: _selectedCategory!.id);
           contactOperations.createContact(contact);
-          // setState(() {});
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ContactsPage()));
         },
         child: Icon(Icons.add),
       ),

@@ -45,10 +45,11 @@ class ContactOperations {
     return contacts;
   }
 
-  Future<List<Contact>> searchContacts(String keyword) async {
+  Future<List<Contact>> searchContacts(String? keyword) async {
     final db = await dbProvider.database;
     List<Map<String, dynamic>> allRows = await db!.query('contact',
-        where: 'contactName LIKE ?', whereArgs: ['%$keyword%']);
+        where: 'contactName LIKE ?  OR contactSurname LIKE ?',
+        whereArgs: ['%$keyword%']);
     List<Contact> contacts =
         allRows.map((contact) => Contact.fromMap(contact)).toList();
     return contacts;

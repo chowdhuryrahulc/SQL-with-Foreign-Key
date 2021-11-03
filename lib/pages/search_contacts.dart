@@ -53,7 +53,7 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
               FutureBuilder(
-                future: contactOperations.searchContacts(keyword!),
+                future: contactOperations.searchContacts(keyword),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.hasError) print('error');
                   data = snapshot.data;

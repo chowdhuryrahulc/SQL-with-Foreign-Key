@@ -37,7 +37,7 @@ class _ContactsPageState extends State<ContactsPage> {
                 future: contactOperations
                     .getAllContacts(), //Database=> contactOperations
                 builder: (context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasError) {
+                  if (snapshot.hasData) {
                     data = snapshot.data;
                     return ContactsList(data!);
                   } else {
