@@ -1,4 +1,5 @@
 // import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sqlwithforiegnkey/database/database.dart';
 import 'package:sqlwithforiegnkey/modals/catagory.dart';
 import 'package:sqlwithforiegnkey/modals/contact.dart';
@@ -34,21 +35,25 @@ class ContactOperations {
     return contacts;
   }
 
-  Future<List<Contact>> getAllContactsByCategory(Category category) async {
+  Future<List<Contact>> getAllContactsByCategory(Category? category) async {
     final db = await dbProvider.database;
-    List<Map<String, dynamic>> allRows = await db!.rawQuery('''
+    if (category != null) {
+      List<Map<String, dynamic>> allRows = await db!.rawQuery('''
     SELECT * FROM contact 
     WHERE contact.FK_contact_category = ${category.id}
     ''');
-    List<Contact> contacts =
-        allRows.map((contact) => Contact.fromMap(contact)).toList();
-    return contacts;
+      List<Contact> contacts =
+          allRows.map((contact) => Contact.fromMap(contact)).toList();
+      return contacts;
+    } else
+      return [];
   }
 
   Future<List<Contact>> searchContacts(String? keyword) async {
     final db = await dbProvider.database;
     List<Map<String, dynamic>> allRows = await db!.query('contact',
-        where: 'contactName LIKE ?  OR contactSurname LIKE ?',
+        where:
+            'contactName LIKE ? OR contactSurname LIKE ?', //! ONLY PROBLEM HERE
         whereArgs: ['%$keyword%']);
     List<Contact> contacts =
         allRows.map((contact) => Contact.fromMap(contact)).toList();

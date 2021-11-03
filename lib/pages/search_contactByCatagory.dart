@@ -57,8 +57,8 @@ class _SearchContactsByCategoryState extends State<SearchContactsByCategory> {
               },
             ),
             FutureBuilder(
-              future: contactOperations
-                  .getAllContactsByCategory(_selectedCategory!),
+              future:
+                  contactOperations.getAllContactsByCategory(_selectedCategory),
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.hasError) print('error');
                 data = snapshot.data;

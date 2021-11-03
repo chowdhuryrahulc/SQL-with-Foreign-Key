@@ -6,9 +6,9 @@ class CategoryOperations {
 
   final dbProvider = DatabaseRepository.instance;
 
-  createCategory(Category category) async {
+  createCategory(Category? category) async {
     final db = await dbProvider.database;
-    db!.insert('category', category.toMap());
+    db!.insert('category', category!.toMap());
   }
 
   Future<List<Category>> getAllCategories() async {
